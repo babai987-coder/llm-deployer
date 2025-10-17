@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request, BackgroundTasks
-import os, json, base64
+import os, json, base64, time
 from dotenv import load_dotenv
 from app.llm_generator import generate_app_code, decode_attachments
 from app.github_utils import (
@@ -119,7 +119,7 @@ def process_request(data):
         "commit_sha": commit_sha,
         "pages_url": pages_url,
     }
-
+    time.sleep(180)
     notify_evaluation_server(data["evaluation_url"], payload)
 
     processed = load_processed()
