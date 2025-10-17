@@ -101,7 +101,7 @@ This README was generated as a fallback (OpenAI did not return an explicit READM
 
 def generate_app_code(brief: str, attachments=None, checks=None, round_num=1, prev_readme=None):
     """
-    Generate or revise an app using the OpenAI Chat Completions API.
+    Generate or revise an app using the OpenAI Responses API.
     - round_num=1: build from scratch
     - round_num=2: refactor based on new brief and previous README/code
     """
@@ -143,17 +143,15 @@ You are a professional web developer assistant.
 """
 
     try:
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
+        response = client.responses.create(
+            model="gpt-5",
+            input=[
                 {"role": "system", "content": "You are a helpful coding assistant that outputs runnable web apps."},
                 {"role": "user", "content": user_prompt}
-            ],
-            temperature=0.7,
-            max_tokens=3000
+            ]
         )
-        text = response.choices[0].message.content or ""
-        print("✅ Generated code using OpenAI Chat Completions API.")
+        text = response.output_text or ""
+        print("✅ Generated code using new OpenAI Responses API.")
     except Exception as e:
         print("⚠ OpenAI API failed, using fallback HTML instead:", e)
         text = f"""
